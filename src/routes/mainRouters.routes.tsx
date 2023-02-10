@@ -1,0 +1,3 @@
+const MainRoutes = () => {
+  return <></>;
+};
