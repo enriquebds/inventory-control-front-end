@@ -1,3 +1,0 @@
-const ManagerPovider = () => {
-  return <></>;
-};
