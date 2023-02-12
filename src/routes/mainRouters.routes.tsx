@@ -10,7 +10,7 @@ const MainRoutes = () => {
     <Routes location={location} key={location.pathname}>
       <Route path="/" element={<Login />} />
       <Route path="/register" element={<Register />} />
-      <Route path="client-dashboard" element={<ClientDashboard />} />
+      <Route path="/dashboard" element={<ClientDashboard />} />
     </Routes>
   );
 };

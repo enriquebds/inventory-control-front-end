@@ -3,7 +3,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { FormStyled } from "../../components/Form/style";
 import Header from "../../components/Header";
 import { registerSchema } from "../../validations/register.validations";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import api from "../../services/api";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export interface IForm {
   accountSubmit: SubmitHandler<FieldValues>;
@@ -16,6 +19,18 @@ export interface SubmitFunction {
 }
 
 const Register = () => {
+  const navigate = useNavigate();
+
+  const onRegister = (data: SubmitFunction) => {
+    api.post("/client", data).then((res) => {
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
+      toast.success("Conta criada!");
+      return res.data;
+    });
+  };
+
   const {
     register,
     handleSubmit,
@@ -25,8 +40,9 @@ const Register = () => {
   });
   return (
     <>
+      <ToastContainer />
       <Header />
-      <FormStyled onSubmit={handleSubmit(() => {})}>
+      <FormStyled onSubmit={handleSubmit(onRegister)}>
         <h3>Cadastro</h3>
         <div>
           <label htmlFor="name">Nome completo</label>

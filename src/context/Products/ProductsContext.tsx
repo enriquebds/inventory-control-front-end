@@ -17,6 +17,7 @@ export interface IProduct {
   name: string;
   category: string;
   description: string;
+  price: string;
 }
 
 export const ProductContext = createContext<IProductContext>(
@@ -24,7 +25,7 @@ export const ProductContext = createContext<IProductContext>(
 );
 
 const ProductProvider = ({ children }: IProductProvider) => {
-  const [products, setProducts] = useState<IProduct[]>({} as IProduct[]);
+  const [products, setProducts] = useState<IProduct[]>([]);
 
   useEffect(() => {
     const listProducts = async () => {
@@ -34,7 +35,7 @@ const ProductProvider = ({ children }: IProductProvider) => {
     };
 
     listProducts();
-  }, [setProducts]);
+  }, [products]);
 
   return (
     <ProductContext.Provider value={{ products, setProducts }}>
