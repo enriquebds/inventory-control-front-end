@@ -99,6 +99,7 @@ export const StyledMain = styled.main`
       }
 
       li {
+        cursor: pointer;
         align-items: center;
         padding: 20px;
         border-radius: 5px;
@@ -108,6 +109,10 @@ export const StyledMain = styled.main`
         gap: 25px;
         background-color: #d9d9d9;
         width: 12.5rem;
+
+        :hover {
+          border: 0.5px solid #0086d4;
+        }
 
         @media (min-width: 1024px) {
           align-items: center;

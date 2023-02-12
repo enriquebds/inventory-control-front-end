@@ -9,7 +9,7 @@ const Header = () => {
   const navigate = useNavigate();
 
   const logout = () => {
-    localStorage.clear();
+    window.localStorage.clear();
 
     setIsLogged(false);
     navigate("/", { replace: true });

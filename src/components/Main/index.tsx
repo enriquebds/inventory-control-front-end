@@ -11,6 +11,8 @@ import { UserContext } from "../../context/User/UserContext";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { productSchema } from "../../validations/product.validations";
+import ModalBase from "../ModalBase";
+import FormProductPatch from "../FormPatchProduct";
 
 export interface IProductCart {
   id: string;
@@ -27,10 +29,18 @@ export interface SubmitFunction {
   price: number;
 }
 
+interface PatchFunction {
+  name?: string;
+  category?: string;
+  price?: number;
+}
+
 const Main = () => {
+  const [isOpenModal, setIsOpenModal] = useState(false);
   const { products, setProducts } = useContext(ProductContext);
   const { user, productsCart, setProductsCart } = useContext(UserContext);
   const [userInput, setUserInput] = useState("");
+  const [productId, setProductId] = useState("");
   const [productsFiltered, setProductsFiltered] = useState<IProduct[]>([]);
 
   useEffect(() => {
@@ -87,6 +97,13 @@ const Main = () => {
     toast.error("Item removido com sucesso!");
   };
 
+  const patchProduct = (data: PatchFunction) => {
+    api.patch(`/product/${productId}`, data).then((_) => {
+      setIsOpenModal(false);
+      toast.success("Produto atualizado!");
+    });
+  };
+
   const deleteProduct = (productId: string) => {
     api.delete(`/product/${productId}`).then((_) => {
       toast.success("Producto deletado!");
@@ -119,7 +136,15 @@ const Main = () => {
           <ul>
             {userInput.trim().length === 0
               ? products.map((product) => (
-                  <li key={product.id}>
+                  <li
+                    key={product.id}
+                    onClick={() => {
+                      if (user.isManager) {
+                        setIsOpenModal(true);
+                        setProductId(product.id);
+                      }
+                    }}
+                  >
                     <b>{product.name}</b>
                     <p>{product.category}</p>
                     <p>
@@ -151,7 +176,14 @@ const Main = () => {
                   </li>
                 ))
               : productsFiltered.map((product) => (
-                  <li key={product.id}>
+                  <li
+                    key={product.id}
+                    onClick={() => {
+                      if (user.isManager) {
+                        setIsOpenModal(true);
+                      }
+                    }}
+                  >
                     <b>{product.name}</b>
                     <p>{product.category}</p>
                     <p>
@@ -256,11 +288,18 @@ const Main = () => {
                 {...register("price")}
               />
               <span>{errors.price?.message}</span>
+
               <button>Entrar</button>
             </div>
           </FormStyled>
         )}
       </StyledMain>
+
+      {isOpenModal ? (
+        <ModalBase setIs={setIsOpenModal}>
+          <FormProductPatch accountSubmit={patchProduct} />
+        </ModalBase>
+      ) : null}
     </>
   );
 };
