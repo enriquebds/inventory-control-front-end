@@ -20,7 +20,28 @@ const Header = () => {
       <HeaderStyled>
         {" "}
         <h1>Inventory Control</h1>{" "}
-        {isLogged ? <button onClick={logout}>Sair</button> : null}
+        <div>
+          {isLogged ? (
+            <button onClick={logout}>Sair</button>
+          ) : (
+            <button
+              onClick={() => {
+                navigate("/", { replace: true });
+              }}
+            >
+              Login
+            </button>
+          )}
+          {!isLogged ? (
+            <button
+              onClick={() => {
+                navigate("/dashboard", { replace: true });
+              }}
+            >
+              Produtos
+            </button>
+          ) : null}
+        </div>
       </HeaderStyled>
     </>
   );

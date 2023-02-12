@@ -12,6 +12,18 @@ export const HeaderStyled = styled.header`
     font-size: 13px;
     font-weight: bold;
   }
+
+  div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    button {
+      padding: 5px;
+      width: 100%;
+      font-size: 13px;
+    }
+  }
+
   button {
     height: 2em;
     width: 50px;
