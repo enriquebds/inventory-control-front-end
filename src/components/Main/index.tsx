@@ -94,7 +94,6 @@ const Main = () => {
     });
 
     setProductsCart(removeProd);
-    toast.error("Item removido com sucesso!");
   };
 
   const patchProduct = (data: PatchFunction) => {
@@ -115,6 +114,11 @@ const Main = () => {
       setProducts((old) => [...old, res.data]);
       toast.success("Produto Criado!");
     });
+  };
+
+  const removeAllProducts = () => {
+    setProductsCart([]);
+    toast.error("Todos os itens foram removidos");
   };
 
   return (
@@ -235,12 +239,23 @@ const Main = () => {
                       <p>{product["category"]}</p>
                       <button
                         onClick={() => {
-                          console.log(product);
+                          toast.error("Item removido com sucesso!");
                           removeProdCart(product);
                         }}
                       >
                         Remover
                       </button>
+                      {productsCart.length > 0 ? (
+                        <button
+                          onClick={() => {
+                            deleteProduct(product.id);
+                            removeProdCart(product);
+                            toast.success("Produto comprado");
+                          }}
+                        >
+                          Comprar
+                        </button>
+                      ) : null}
                     </li>
                   ))
                 ) : (
@@ -250,8 +265,12 @@ const Main = () => {
                   </div>
                 )}
               </ul>
-              {productsCart.length > 0 ? <button>Comprar</button> : null}
             </section>
+            {productsCart.length > 0 ? (
+              <div>
+                <button onClick={removeAllProducts}>Remover todos</button>
+              </div>
+            ) : null}
           </Cart>
         ) : (
           <FormStyled onSubmit={handleSubmit(createProduct)}>
