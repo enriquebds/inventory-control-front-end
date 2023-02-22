@@ -12,7 +12,7 @@
 
 ## 1. Visão Geral
 
-Aplicação back-end onde é feito o controle do estoque e venda de uma loja de produtos diversos.
+Aplicação front-end onde é feito o controle do estoque e venda de uma loja de produtos diversos.
 
 Logo abaixo temos a lista de tecnologias e hooks usados:
 
